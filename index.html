@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Valentine 💖</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      text-align: center;
+      overflow-x: hidden;
+      background: linear-gradient(to bottom, #ff1e56, #ff4d88, #ffe6f0);
+      color: white;
+    }
+
+    h1, h2 {
+      text-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    .container {
+      padding: 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Video Responsive */
+    video {
+      width: 90%;
+      max-width: 420px;
+      border-radius: 20px;
+      margin-top: 20px;
+      box-shadow: 0 0 25px rgba(0,0,0,0.4);
+    }
+
+    
+
+    /* Valentine Question Hidden Initially */
+    #questionBox {
+      display: none;
+      margin-top: 25px;
+    }
+
+    .question {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    button {
+      padding: 12px 22px;
+      font-size: 18px;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      margin: 10px;
+    }
+
+    #yesBtn {
+      background: white;
+      color: #ff1e56;
+      font-weight: bold;
+    }
+
+    #noBtn {
+      background: black;
+      color: white;
+      position: absolute;
+    }
+
+    /* YES PAGE */
+    #yesPage {
+      display: none;
+      padding: 20px;
+    }
+
+    .smallNote {
+      font-size: 16px;
+      margin-top: -10px;
+      color: #ffe6f0;
+      font-style: italic;
+    }
+
+    /* Valentine Week Icons */
+    .days {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 20px;
+      gap: 18px;
+    }
+
+    .dayIcon {
+      font-size: 40px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .dayIcon:hover {
+      transform: scale(1.3);
+    }
+
+    .locked {
+      opacity: 0.4;
+    }
+
+    /* Popup Modal */
+    #popup {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+
+    #popupBox {
+      background: rgba(255,255,255,0.95);
+      padding: 25px;
+      border-radius: 20px;
+      width: 85%;
+      max-width: 350px;
+      text-align: center;
+      color: #ff1e56;
+      box-shadow: 0 0 25px rgba(0,0,0,0.3);
+      animation: pop 0.3s ease;
+    }
+
+    @keyframes pop {
+      from {transform: scale(0.8);}
+      to {transform: scale(1);}
+    }
+
+    #closePopup {
+      float: right;
+      cursor: pointer;
+      font-size: 20px;
+      color: black;
+    }
+
+    /* Floating Hearts Animation */
+    .heart {
+      position: fixed;
+      bottom: -20px;
+      font-size: 20px;
+      animation: floatUp 6s linear infinite;
+      opacity: 0.8;
+      z-index: 1;
+    }
+
+    @keyframes floatUp {
+      from {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateY(-110vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ✅ Background Music (Mobile Needs Tap) -->
+
+  <audio autoplay loop>
+  <source src="music.mp3" type="audio/mp3">
+</audio>
+
+
+  <!-- ✅ Floating Hearts -->
+  <script>
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerHTML = "💖";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 6000);
+    }
+    setInterval(createHeart, 400);
+  </script>
+
+  <!-- MAIN PAGE -->
+  <div class="container" id="mainPage">
+    <h1>Happy Valentine’s Week 💕</h1>
+
+    <!-- ✅ Video Autoplay After 5 Seconds -->
+    <video id="valVideo" autoplay muted playsinline>
+      <source src="valentine.mp4" type="video/mp4">
+    </video>
+
+    <!-- Question Appears After Video Ends -->
+    <div id="questionBox">
+      <p class="question">Will you be my Valentine? 😚💖</p>
+      <button id="yesBtn" onclick="showYesPage()">YES 💘</button>
+      <button id="noBtn">NO 🙈</button>
+    </div>
+  </div>
+
+  <!-- YES PAGE -->
+  <div id="yesPage">
+    <h1>YAYYYY 🥹💖</h1>
+    <h2>I’m so happy you said YES, my love 😭💕</h2>
+
+    <p class="smallNote">
+  Now you’re officially my forever Valentine 😭💖<br>
+  No escape, no return — only unlimited hugs, kisses, and me being obsessed with you 😏💞<br>
+  Pickup line: Are you my heartbeat? Because I can’t stop feeling you in everything I do 🫀✨
+</p>
+
+
+    <h2 style="margin-top:25px;">Countdown to Valentine’s Day 💘</h2>
+<p id="timer" style="font-size:20px; font-weight:bold;"></p>
+
+
+    <h2>Valentine Week Love Letters 💌</h2>
+    <p>Each day unlocks only on its date ❤️</p>
+
+    <div class="days" id="daysContainer"></div>
+  </div>
+
+  <!-- Popup Modal -->
+  <div id="popup">
+    <div id="popupBox">
+      <span id="closePopup" onclick="closePopup()">✖</span>
+      <h2 id="popupTitle"></h2>
+      <p id="popupMessage"></p>
+    </div>
+  </div>
+
+<script>
+
+  /* ✅ Video plays after 5 seconds */
+  const video = document.getElementById("valVideo");
+
+  window.onload = () => {
+    setTimeout(() => {
+      video.play();
+    }, 5000);
+  };
+
+  /* Show question after video ends */
+  video.onended = () => {
+    document.getElementById("questionBox").style.display = "block";
+  };
+
+  /* NO button escaping */
+  const noBtn = document.getElementById("noBtn");
+  noBtn.addEventListener("mouseover", () => {
+    noBtn.style.left = Math.random() * 70 + "%";
+    noBtn.style.top = Math.random() * 70 + "%";
+  });
+
+  /* YES Page */
+  function showYesPage() {
+    document.getElementById("mainPage").style.display = "none";
+    document.getElementById("yesPage").style.display = "block";
+  }
+
+  /* 💖 Valentine Countdown Timer */
+function startCountdown() {
+  const valentinesDate = new Date("Feb 14, 2026 00:00:00").getTime();
+
+  setInterval(() => {
+    const now = new Date().getTime();
+    const distance = valentinesDate - now;
+
+    if (distance < 0) {
+      document.getElementById("timer").innerHTML =
+        "It’s Valentine’s Dayyyy 💖😭";
+      return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById("timer").innerHTML =
+      `${days} Days 💕 ${hours} Hours ⏳ ${minutes} Min 💌 ${seconds} Sec 💖`;
+  }, 1000);
+}
+
+startCountdown();
+
+
+  /* Valentine Letters Data */
+  const letters = [
+    { day: "Rose Day 🌹", date: 7, msg: `Good morning, my love 🌹
+Happy Rose Day! Every rose reminds me of you — soft, beautiful, and impossible to resist 😏
+Remember our little joke about stealing each other’s roses? Well, I’d steal your heart a million times if I could 💛
+Drink warm water today… I need my favorite human healthy and happy 🥰` },
+
+    { day: "Propose Day 💌", date: 8, msg: `Morning, my heartbeat 🫀
+Happy Propose Day! Remember the first time we confessed our secrets on May 20? 😘
+Today, I propose again — will you keep my heart safe forever? 🥹
+P.S. I might be rehearsing my next hug plan 😏💖` },
+
+    { day: "Chocolate Day 🍫", date: 9, msg: `Hey sleepyhead 😴🍫
+Happy Chocolate Day! Remember the first Dairy Milk you gave me on July 22? 🥰
+Promise me you’ll have something sweet today… like you 😘` },
+
+    { day: "Teddy Day 🐻", date: 10, msg: `Morning, lovebug 🐻
+Happy Teddy Day! Remember the little Labubu you gifted me? 🥹
+I sleep with it every night, like having a piece of you beside me 💖` },
+
+    { day: "Promise Day ❤️", date: 11, msg: `Good morning, my love ❤️
+Happy Promise Day! I promise to always care for you, tease you, love you 🥰
+Remember our first temple date on June 3? My heart will always be your home 🫶` },
+
+    { day: "Hug Day 🤗", date: 12, msg: `Morning, my heartbeat 🫀
+Happy Hug Day! Our first proper hug on Nov 19 still gives me butterflies 🥹
+Save a hug for me tomorrow 😘` },
+
+    { day: "Valentine’s Day 💖", date: 14, msg: `Good morning, my everything 💖
+From our first message on July 22 to our first kiss on Dec 20… every memory is love 🥹
+Today is all about us 😏💛` }
+  ];
+
+  /* Icons Locked */
+  const today = new Date().getDate();
+  const container = document.getElementById("daysContainer");
+
+  letters.forEach((item) => {
+    const icon = document.createElement("div");
+    icon.className = "dayIcon";
+
+    if (today < item.date) {
+      icon.classList.add("locked");
+      icon.innerHTML = "🔒";
+      icon.onclick = () => openPopup("Locked 🔒", `Come back on Feb ${item.date} 💖`);
+    } else {
+      icon.innerHTML = "💌";
+      icon.onclick = () => openPopup(item.day, item.msg);
+    }
+
+    container.appendChild(icon);
+  });
+
+  /* Popup */
+  function openPopup(title, message) {
+    document.getElementById("popupTitle").innerText = title;
+    document.getElementById("popupMessage").innerText = message;
+    document.getElementById("popup").style.display = "flex";
+  }
+
+  function closePopup() {
+    document.getElementById("popup").style.display = "none";
+  }
+</script>
+
+</body>
+</html>
