@@ -166,11 +166,11 @@
 
 <body>
 
-  <!-- ✅ Background Music (Mobile Needs Tap) -->
-
-  <audio autoplay loop>
+  <!-- Background Music -->
+<audio id="bgMusic" loop>
   <source src="music.mp3" type="audio/mp3">
 </audio>
+>
 
 
   <!-- ✅ Floating Hearts -->
@@ -261,9 +261,13 @@
 
   /* YES Page */
   function showYesPage() {
-    document.getElementById("mainPage").style.display = "none";
-    document.getElementById("yesPage").style.display = "block";
-  }
+  document.getElementById("mainPage").style.display = "none";
+  document.getElementById("yesPage").style.display = "block";
+
+  // ✅ Start music after click
+  document.getElementById("bgMusic").play();
+}
+
 
   /* 💖 Valentine Countdown Timer */
 function startCountdown() {
@@ -359,4 +363,5 @@ Today is all about us 😏💛` }
 
 </body>
 </html>
+
 
